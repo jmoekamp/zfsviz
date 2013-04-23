@@ -1,0 +1,45 @@
+script
+	run('shares');
+	projects = list();
+	printf('%-40s %-10s %-10s\n', 'NAME', 'ORIGIN', 'TYPE');
+	for (i = 0; i < projects.length; i++) {
+		run('select ' + projects[i]);
+		printf('%s - project\n', projects[i]);
+		shares = list();
+		for (j = 0; j < shares.length; j++) {
+			run('select ' + shares[j]);
+			share = projects[i] + '/' + shares[j];
+			origin = run('get origin').split(/\s+/)[3];
+			if (origin == '') {
+ 				 origin = '-';
+			}
+			type = 'volume';
+			try {
+				iqn = run('get iqn');
+			} catch(EAKSH_NAS_UNKNOWNPROP) {
+				type = 'filesystem';
+			}
+ 			printf('%s %s %s\n', share, origin, type);
+			properties_raw=run('get');
+			properties=properties_raw.split(/\n/);
+			for (p = 0; p < properties.length; p++) {
+				printf('###ZFSLIST###%s### %s\n',share,properties[p]);
+			}		
+			run('snapshots');
+			snapshots = list();
+			for (k = 0; k < snapshots.length; k++) {
+				printf('%s\@%s - snapshot\n',share,snapshots[k]);
+				run('select ' + snapshots[k]);
+				propertiessnapshot_raw=run('get');
+				propertiessnapshot=propertiessnapshot_raw.split(/\n/);
+				for (p = 0; p < propertiessnapshot.length; p++) {
+					printf('###ZFSLIST###%s\@%s### %s\n', share, snapshots[k], propertiessnapshot[p]);
+				}
+				run('cd ..');
+			}
+			run('cd ..');
+			run('cd ..');
+		}
+		run('cd ..');
+	}
+

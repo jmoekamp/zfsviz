@@ -1,0 +1,46 @@
+README für zfsviz.pl
+--------------------
+
+Usage:
+------
+zfsviz.pl [-m value] [-o value] [-v value] [-f value] [-s value] [-a value]
+
+
+-a show				show automatically created snapshots from 
+				Timeslider
+-m basic 			Prints out a basic overview diagram of the
+				datapools
+-m verbose			Prints out a more verbose diagram with the 
+				capability to show the properties of the dataset
+-o <filename>			Save output to this file
+-v <list of properties>		Print out the defined properties for a volume
+				(defaults to "type")
+-s <list of properties>		Print out the defined properties for a snapshot 
+				(defaults to "type")
+-f <list of properties>		Print out the defined properties for a filesystem
+			        (defaults to "type")
+
+Working with GraphViz
+---------------------
+After the installation you should find a tool called dot on your system.  To get
+the graphical representation of the output file you have execute the dot command
+following example assumes that you've written the output of zfsviz.pl to out.dot
+
+dot -Tpng -o out.png out.dot
+
+For further information consult the man page of dot
+
+Developers
+----------
+Joerg Moellenkamp, joerg@c0t0d0s0.org
+
+Further Credits
+---------------
+The tarball contains some packages from CPAN to install installation on 
+Solaris 10 packages with only a few installed packages. This code isn't my 
+own, it was developed by others, thus i want to put the credits for this 
+code at this place.
+
+Tree::Simple by Stevan Little, available at http://search.cpan.org/dist/Tree-Simple/
+Scalar::Util by Graham Barr, available http://search.cpan.org/~gbarr/Scalar-List-Utils-1.21/
+List::Util by Graham Barr, available http://search.cpan.org/~gbarr/Scalar-List-Utils-1.21/
